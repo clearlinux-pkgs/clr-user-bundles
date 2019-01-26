@@ -4,7 +4,7 @@
 #
 Name     : clr-user-bundles
 Version  : 1
-Release  : 1
+Release  : 2
 URL      : http://localhost/cgit/projects/clr-user-bundles/snapshot/clr-user-bundles-1.tar.gz
 Source0  : http://localhost/cgit/projects/clr-user-bundles/snapshot/clr-user-bundles-1.tar.gz
 Summary  : No detailed summary available
@@ -28,6 +28,14 @@ Requires: clr-user-bundles-license = %{version}-%{release}
 bin components for the clr-user-bundles package.
 
 
+%package extras
+Summary: extras components for the clr-user-bundles package.
+Group: Default
+
+%description extras
+extras components for the clr-user-bundles package.
+
+
 %package license
 Summary: license components for the clr-user-bundles package.
 Group: Default
@@ -44,12 +52,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1548540020
+export SOURCE_DATE_EPOCH=1548540199
 make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1548540020
+export SOURCE_DATE_EPOCH=1548540199
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/clr-user-bundles
 cp COPYING %{buildroot}/usr/share/package-licenses/clr-user-bundles/COPYING
@@ -64,9 +72,13 @@ cp vendor/github.com/spf13/pflag/LICENSE %{buildroot}/usr/share/package-licenses
 
 %files bin
 %defattr(-,root,root,-)
+%exclude /usr/bin/mixer-user-bundler
 /usr/bin/3rd-party-post
-/usr/bin/mixer-user-bundler
 /usr/bin/swupd-3rd-party
+
+%files extras
+%defattr(-,root,root,-)
+/usr/bin/mixer-user-bundler
 
 %files license
 %defattr(0644,root,root,0755)
