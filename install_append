@@ -1,0 +1,2 @@
+mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
+ln -s ../3rd-party-update.timer %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/3rd-party-update.timer

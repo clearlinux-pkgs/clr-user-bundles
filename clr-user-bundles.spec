@@ -4,12 +4,13 @@
 #
 Name     : clr-user-bundles
 Version  : 11
-Release  : 10
+Release  : 11
 URL      : https://github.com/clearlinux/clr-user-bundles/releases/download/v11/clr-user-bundles-v11.tar.xz
 Source0  : https://github.com/clearlinux/clr-user-bundles/releases/download/v11/clr-user-bundles-v11.tar.xz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : Apache-2.0 BSD-3-Clause MIT
+Requires: clr-user-bundles-autostart = %{version}-%{release}
 Requires: clr-user-bundles-bin = %{version}-%{release}
 Requires: clr-user-bundles-license = %{version}-%{release}
 Requires: clr-user-bundles-man = %{version}-%{release}
@@ -23,6 +24,14 @@ reflection interface similar to Go's standard library `json` and `xml`
 packages. This package also supports the `encoding.TextUnmarshaler` and
 `encoding.TextMarshaler` interfaces so that you can define custom data
 representations. (There is an example of this below.)
+
+%package autostart
+Summary: autostart components for the clr-user-bundles package.
+Group: Default
+
+%description autostart
+autostart components for the clr-user-bundles package.
+
 
 %package bin
 Summary: bin components for the clr-user-bundles package.
@@ -74,13 +83,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1553118575
+export SOURCE_DATE_EPOCH=1553119046
 export LDFLAGS="${LDFLAGS} -fno-lto"
 make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1553118575
+export SOURCE_DATE_EPOCH=1553119046
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/clr-user-bundles
 cp COPYING %{buildroot}/usr/share/package-licenses/clr-user-bundles/COPYING
@@ -89,9 +98,17 @@ cp vendor/github.com/inconshreveable/mousetrap/LICENSE %{buildroot}/usr/share/pa
 cp vendor/github.com/spf13/cobra/LICENSE.txt %{buildroot}/usr/share/package-licenses/clr-user-bundles/vendor_github.com_spf13_cobra_LICENSE.txt
 cp vendor/github.com/spf13/pflag/LICENSE %{buildroot}/usr/share/package-licenses/clr-user-bundles/vendor_github.com_spf13_pflag_LICENSE
 %make_install
+## install_append content
+mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
+ln -s ../3rd-party-update.timer %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/3rd-party-update.timer
+## install_append end
 
 %files
 %defattr(-,root,root,-)
+
+%files autostart
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/multi-user.target.wants/3rd-party-update.timer
 
 %files bin
 %defattr(-,root,root,-)
@@ -120,5 +137,6 @@ cp vendor/github.com/spf13/pflag/LICENSE %{buildroot}/usr/share/package-licenses
 
 %files services
 %defattr(-,root,root,-)
+%exclude /usr/lib/systemd/system/multi-user.target.wants/3rd-party-update.timer
 /usr/lib/systemd/system/3rd-party-update.service
 /usr/lib/systemd/system/3rd-party-update.timer
