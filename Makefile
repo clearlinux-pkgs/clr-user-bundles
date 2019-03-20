@@ -1,5 +1,5 @@
 PKG_NAME := clr-user-bundles
-URL = $(CGIT_BASE_URL)/projects/clr-user-bundles/snapshot/clr-user-bundles-10.tar.gz
+URL = https://github.com/clearlinux/clr-user-bundles/releases/download/v11/clr-user-bundles-v11.tar.xz
 ARCHIVES = 
 
 include ../common/Makefile.common
