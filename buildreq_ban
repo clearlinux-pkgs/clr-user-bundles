@@ -3,3 +3,4 @@
 go-cobra
 go-mousetrap
 go-pflag
+go-toml
