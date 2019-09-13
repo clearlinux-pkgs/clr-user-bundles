@@ -4,26 +4,25 @@
 #
 Name     : clr-user-bundles
 Version  : 13.0.1
-Release  : 15
-URL      : https://github.com/clearlinux/clr-user-bundles/releases/download/v13.0.1/clr-user-bundles-v13.0.1.tar.xz
-Source0  : https://github.com/clearlinux/clr-user-bundles/releases/download/v13.0.1/clr-user-bundles-v13.0.1.tar.xz
+Release  : 16
+URL      : https://github.com/clearlinux/clr-user-bundles/archive/v13.0.1.tar.gz
+Source0  : https://github.com/clearlinux/clr-user-bundles/archive/v13.0.1.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
-License  : Apache-2.0 BSD-3-Clause MIT
+License  : Apache-2.0
 Requires: clr-user-bundles-autostart = %{version}-%{release}
 Requires: clr-user-bundles-bin = %{version}-%{release}
 Requires: clr-user-bundles-license = %{version}-%{release}
 Requires: clr-user-bundles-man = %{version}-%{release}
 Requires: clr-user-bundles-services = %{version}-%{release}
 BuildRequires : buildreq-golang
+BuildRequires : go-github.com-BurntSushi-toml
+BuildRequires : go-github.com-inconshreveable-mousetrap
+BuildRequires : go-github.com-spf13-cobra
+BuildRequires : go-github.com-spf13-pflag
 
 %description
-## TOML parser and encoder for Go with reflection
-TOML stands for Tom's Obvious, Minimal Language. This Go package provides a
-reflection interface similar to Go's standard library `json` and `xml`
-packages. This package also supports the `encoding.TextUnmarshaler` and
-`encoding.TextMarshaler` interfaces so that you can define custom data
-representations. (There is an example of this below.)
+No detailed description available
 
 %package autostart
 Summary: autostart components for the clr-user-bundles package.
@@ -76,14 +75,14 @@ services components for the clr-user-bundles package.
 
 
 %prep
-%setup -q -n clr-user-bundles-v13.0.1
+%setup -q -n clr-user-bundles-13.0.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1562313630
+export SOURCE_DATE_EPOCH=1568395751
 export GCC_IGNORE_WERROR=1
 export GOPROXY=file:///usr/share/goproxy
 export CFLAGS="$CFLAGS -fno-lto "
@@ -94,14 +93,10 @@ make  %{?_smp_mflags}
 
 
 %install
-export SOURCE_DATE_EPOCH=1562313630
+export SOURCE_DATE_EPOCH=1568395751
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/clr-user-bundles
 cp COPYING %{buildroot}/usr/share/package-licenses/clr-user-bundles/COPYING
-cp vendor/github.com/BurntSushi/toml/COPYING %{buildroot}/usr/share/package-licenses/clr-user-bundles/vendor_github.com_BurntSushi_toml_COPYING
-cp vendor/github.com/inconshreveable/mousetrap/LICENSE %{buildroot}/usr/share/package-licenses/clr-user-bundles/vendor_github.com_inconshreveable_mousetrap_LICENSE
-cp vendor/github.com/spf13/cobra/LICENSE.txt %{buildroot}/usr/share/package-licenses/clr-user-bundles/vendor_github.com_spf13_cobra_LICENSE.txt
-cp vendor/github.com/spf13/pflag/LICENSE %{buildroot}/usr/share/package-licenses/clr-user-bundles/vendor_github.com_spf13_pflag_LICENSE
 %make_install
 ## install_append content
 mkdir -p %{buildroot}/usr/lib/systemd/system/multi-user.target.wants/
@@ -117,7 +112,6 @@ ln -s ../3rd-party-update.timer %{buildroot}/usr/lib/systemd/system/multi-user.t
 
 %files bin
 %defattr(-,root,root,-)
-%exclude /usr/bin/mixer-user-bundler
 /usr/bin/3rd-party-post
 /usr/bin/swupd-3rd-party
 
@@ -129,14 +123,9 @@ ln -s ../3rd-party-update.timer %{buildroot}/usr/lib/systemd/system/multi-user.t
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/clr-user-bundles/COPYING
-/usr/share/package-licenses/clr-user-bundles/vendor_github.com_BurntSushi_toml_COPYING
-/usr/share/package-licenses/clr-user-bundles/vendor_github.com_inconshreveable_mousetrap_LICENSE
-/usr/share/package-licenses/clr-user-bundles/vendor_github.com_spf13_cobra_LICENSE.txt
-/usr/share/package-licenses/clr-user-bundles/vendor_github.com_spf13_pflag_LICENSE
 
 %files man
 %defattr(0644,root,root,0755)
-%exclude /usr/share/man/man1/mixer-user-bundler.1
 /usr/share/man/man1/3rd-party-post.1
 /usr/share/man/man1/swupd-3rd-party.1
 

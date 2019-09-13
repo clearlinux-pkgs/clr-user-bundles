@@ -1,5 +1,5 @@
 PKG_NAME := clr-user-bundles
-URL = https://github.com/clearlinux/clr-user-bundles/releases/download/v13.0.1/clr-user-bundles-v13.0.1.tar.xz
+URL = https://github.com/clearlinux/clr-user-bundles/archive/v13.0.1.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
